@@ -22,8 +22,8 @@ RUN set -x \
 		tar \
 		openssl	\
 	&& mkdir -p "$CATALINA_HOME"	\
-	&& rm bin/*.bat \
-	&& rm -rf /usr/local/apache-tomcat-8.5.15/webapps/docs /usr/local/apache-tomcat-8.5.15/webapps/examples \
+	&& rm $CATALINA_HOME/bin/*.bat \
+	&& rm -rf $CATALINA_HOME/webapps/docs $CATALINA_HOME/webapps/examples \
 	&& nativeBuildDir="$(mktemp -d)" \
 	&& tar -xvf bin/tomcat-native.tar.gz -C "$nativeBuildDir" --strip-components=1 \
 	&& apk add --no-cache --virtual .native-build-deps \
