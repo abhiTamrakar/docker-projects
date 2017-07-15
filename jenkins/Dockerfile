@@ -22,7 +22,6 @@ RUN set -x \
 		tar \
 		openssl	\
 	&& mkdir -p "$CATALINA_HOME"	\
-	&& rm $CATALINA_HOME/bin/*.bat \
 	&& rm -rf $CATALINA_HOME/webapps/docs $CATALINA_HOME/webapps/examples \
 	&& nativeBuildDir="$(mktemp -d)" \
 	&& tar -xvf bin/tomcat-native.tar.gz -C "$nativeBuildDir" --strip-components=1 \
