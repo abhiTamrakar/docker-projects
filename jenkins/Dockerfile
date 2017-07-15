@@ -1,4 +1,4 @@
-FROM jdk:1.8.131 
+FROM iabhi/jdk:1.8.131
 
 ENV JAVA_HOME /usr/local/java/jdk
 
