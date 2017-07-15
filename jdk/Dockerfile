@@ -7,5 +7,4 @@ ADD http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d
 RUN set -x	\
 	&& ln -s /usr/local/java/jdk1.8.0_131 /usr/local/java/jdk \
 	&& apk del wget \
-	&& rm -f /tmp/* \
-	&& java -version
+	&& rm -f /tmp/* 
