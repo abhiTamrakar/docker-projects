@@ -56,7 +56,7 @@ RUN set -x \
 	&& apk add --virtual .tomcat-native-rundeps $runDeps \
 	&& apk del .fetch-deps .native-build-deps \
 	&& rm -rf "$nativeBuildDir" \
-	&& rm bin/tomcat-native.tar.gz
+	&& rm $CATALINA_HOME/bin/tomcat-native.tar.gz
 
 # verify Tomcat Native is working properly
 RUN set -e \
