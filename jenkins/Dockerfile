@@ -24,7 +24,7 @@ RUN set -x \
 	&& mkdir -p "$CATALINA_HOME"	\
 	&& rm -rf $CATALINA_HOME/webapps/docs $CATALINA_HOME/webapps/examples \
 	&& nativeBuildDir="$(mktemp -d)" \
-	&& tar -xvf bin/tomcat-native.tar.gz -C "$nativeBuildDir" --strip-components=1 \
+	&& tar -xvf $CATALINA_HOME/bin/tomcat-native.tar.gz -C "$nativeBuildDir" --strip-components=1 \
 	&& apk add --no-cache --virtual .native-build-deps \
 		apr-dev \
 		dpkg-dev dpkg \
