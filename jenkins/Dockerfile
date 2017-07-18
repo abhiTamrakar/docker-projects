@@ -1,4 +1,4 @@
-FROM iabhi/jdk:1.8.131
+FROM jdk:1.8.131 
 
 ENV JAVA_HOME /usr/local/java/jdk
 
@@ -8,12 +8,9 @@ ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR
 
 ENV TOMCAT_MAJOR 8
 ENV TOMCAT_VERSION 8.5.15
-ENV JENKINS_HOME=/var/lib/jenkins
+
 ENV CATALINA_HOME /usr/local/apache-tomcat-8.5.15
 ENV PATH $CATALINA_HOME/bin:$PATH
-ADD https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.15/bin/apache-tomcat-8.5.15.tar.gz /usr/local/
-
-WORKDIR $CATALINA_HOME
 
 RUN set -x \
 	\
@@ -21,7 +18,16 @@ RUN set -x \
 		ca-certificates \
 		tar \
 		openssl	\
-	&& mkdir -p "$CATALINA_HOME"	\
+		wget	\
+	&& wget https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.15/bin/apache-tomcat-8.5.15.tar.gz -O /tmp/apache-tomcat-8.5.15.tar.gz	\
+	&& mkdir -p "$CATALINA_HOME"
+
+WORKDIR $CATALINA_HOME	
+RUN \
+ pwd	\
+	&& cd ..	\
+	&& tar -xvf /tmp/apache-tomcat-8.5.15.tar.gz 	\
+	&& pwd 	\
 	&& rm -rf $CATALINA_HOME/webapps/docs $CATALINA_HOME/webapps/examples \
 	&& nativeBuildDir="$(mktemp -d)" \
 	&& tar -xvf $CATALINA_HOME/bin/tomcat-native.tar.gz -C "$nativeBuildDir" --strip-components=1 \
@@ -55,11 +61,10 @@ RUN set -x \
 	)" \
 	&& apk add --virtual .tomcat-native-rundeps $runDeps \
 	&& apk del .fetch-deps .native-build-deps \
-	&& rm -rf "$nativeBuildDir" \
-	&& rm $CATALINA_HOME/bin/tomcat-native.tar.gz
-
+	&& rm -rf "$nativeBuildDir" /tmp/* \
+	&& rm bin/tomcat-native.tar.gz	\
 # verify Tomcat Native is working properly
-RUN set -e \
+	&& set -e \
 	&& nativeLines="$(catalina.sh configtest 2>&1)" \
 	&& nativeLines="$(echo "$nativeLines" | grep 'Apache Tomcat Native')" \
 	&& nativeLines="$(echo "$nativeLines" | sort -u)" \
@@ -67,7 +72,6 @@ RUN set -e \
 		echo >&2 "$nativeLines"; \
 		exit 1; \
 	fi
-WORKDIR $JENKINS_HOME
 ADD https://updates.jenkins-ci.org/latest/jenkins.war $CATALINA_HOME/webapps/
 
 EXPOSE 8080
