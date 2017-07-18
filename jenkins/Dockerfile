@@ -1,6 +1,6 @@
 FROM jdk:1.8.131
 
-ENV JAVA_HOME /usr/local/java/jdk
+ENV JAVA_HOME /usr/bin/java
 
 # let "Tomcat Native" live somewhere isolated
 ENV TOMCAT_NATIVE_LIBDIR $CATALINA_HOME/native-jni-lib
@@ -11,6 +11,7 @@ ENV TOMCAT_VERSION 8.5.15
 
 ENV CATALINA_HOME /usr/local/apache-tomcat-8.5.15
 ENV PATH $CATALINA_HOME/bin:$PATH
+WORKDIR $CATALINA_HOME
 
 RUN set -x \
 	\
@@ -20,14 +21,7 @@ RUN set -x \
 		openssl	\
 		wget	\
 	&& wget https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.15/bin/apache-tomcat-8.5.15.tar.gz -O /tmp/apache-tomcat-8.5.15.tar.gz	\
-	&& mkdir -p "$CATALINA_HOME"
-
-WORKDIR $CATALINA_HOME	
-RUN \
- pwd	\
-	&& cd ..	\
 	&& tar -xvf /tmp/apache-tomcat-8.5.15.tar.gz 	\
-	&& pwd 	\
 	&& rm -rf $CATALINA_HOME/webapps/docs $CATALINA_HOME/webapps/examples \
 	&& nativeBuildDir="$(mktemp -d)" \
 	&& tar -xvf $CATALINA_HOME/bin/tomcat-native.tar.gz -C "$nativeBuildDir" --strip-components=1 \
