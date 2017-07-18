@@ -1,4 +1,4 @@
-FROM jdk:1.8.131 
+FROM jdk:1.8.131
 
 ENV JAVA_HOME /usr/local/java/jdk
 
@@ -62,7 +62,7 @@ RUN \
 	&& apk add --virtual .tomcat-native-rundeps $runDeps \
 	&& apk del .fetch-deps .native-build-deps \
 	&& rm -rf "$nativeBuildDir" /tmp/* \
-	&& rm bin/tomcat-native.tar.gz	\
+	&& rm $CATALINA_HOME/bin/tomcat-native.tar.gz	\
 # verify Tomcat Native is working properly
 	&& set -e \
 	&& nativeLines="$(catalina.sh configtest 2>&1)" \
