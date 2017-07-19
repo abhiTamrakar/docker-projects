@@ -1,4 +1,4 @@
-FROM jdk:test
+FROM jdk:1.8.121
 
 ENV JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk 
 ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$JAVA_HOME
