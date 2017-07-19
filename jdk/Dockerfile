@@ -1,6 +1,6 @@
-FROM alpine:3.5
+FROM alpine:latest
+ENV JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk
 RUN  apk --update add --no-cache ttf-dejavu fontconfig	\
 		openjdk8  \
 	&& rm -f /tmp/* \
-	&& export JAVA_HOME=$(readlink -f /usr/lib/jvm/default-jvm)	\
 	&& java -version
