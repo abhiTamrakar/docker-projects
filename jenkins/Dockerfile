@@ -1,5 +1,6 @@
-FROM jdk:1.8.121
+FROM iabhi/jdk:1.8.121
 
+LABEL maintainer="Abhishek Tamrakar<abhishek.tamrakar08@gmail.com>"
 ENV JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk 
 ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$JAVA_HOME
 # let "Tomcat Native" live somewhere isolated
