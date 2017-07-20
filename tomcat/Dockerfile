@@ -10,7 +10,6 @@ ENV TOMCAT_VERSION 8.5.15
 ENV CATALINA_HOME /usr/local/apache-tomcat-8.5.15
 ENV PATH $CATALINA_HOME/bin:$PATH
 #ADD apache-tomcat-8.5.15.tar.gz /usr/local/
-ADD https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.15/bin/apache-tomcat-8.5.15.tar.gz /usr/local/
 WORKDIR $CATALINA_HOME
 RUN set -x \
 	\
@@ -18,7 +17,10 @@ RUN set -x \
 		ca-certificates \
 		tar \
 		openssl	\
-	&& mkdir -p "$CATALINA_HOME"	\
+		wget	\
+	&& wget https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.15/bin/apache-tomcat-8.5.15.tar.gz -O /usr/local/apache-tomcat-8.5.15.tar.gz	\
+	&& cd /usr/local	\
+	&& tar -xvf apache-tomcat-8.5.15.tar.gz	\
 	&& rm -rf $CATALINA_HOME/webapps/docs $CATALINA_HOME/webapps/examples \
 	&& nativeBuildDir="$(mktemp -d)" \
 	&& tar -xvf $CATALINA_HOME/bin/tomcat-native.tar.gz -C "$nativeBuildDir" --strip-components=1 \
@@ -53,7 +55,7 @@ RUN set -x \
 	&& apk add --virtual .tomcat-native-rundeps $runDeps \
 	&& apk del .fetch-deps .native-build-deps \
 	&& rm -rf "$nativeBuildDir" \
-	&& rm $CATALINA_HOME/bin/tomcat-native.tar.gz
+	&& rm $CATALINA_HOME/bin/tomcat-native.tar.gz /usr/local/apache-tomcat-8.5.15.tar.gz
 # verify Tomcat Native is working properly
 RUN set -e \
 	&& nativeLines="$(catalina.sh configtest 2>&1)" \
