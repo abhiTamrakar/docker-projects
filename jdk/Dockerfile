@@ -4,6 +4,7 @@ ENV PATH ${PATH}:/usr/local/java/jdk/bin
 ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$JAVA_HOME:/usr/lib:/lib/
 RUN apk --update --no-cache add \
 	ca-certificates \
+	openssl-dev \
         tar \
         sqlite \
         icu \
