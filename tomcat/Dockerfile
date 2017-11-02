@@ -1,4 +1,4 @@
-FROM iabhi/jdk:1.8.131
+FROM iabhi/jdk:latest
 
 LABEL maintainer="Abhishek Tamrakar<abhishek.tamrakar08@gmail.com>"
 ENV JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk
@@ -6,10 +6,10 @@ ENV JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk
 ENV TOMCAT_NATIVE_LIBDIR $CATALINA_HOME/native-jni-lib
 ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR
 ENV TOMCAT_MAJOR 8
-ENV TOMCAT_VERSION 8.5.15
-ENV CATALINA_HOME /usr/local/apache-tomcat-8.5.15
+ENV TOMCAT_VERSION 8.5.23
+ENV CATALINA_HOME /usr/local/apache-tomcat-8.5.23
 ENV PATH $CATALINA_HOME/bin:$PATH
-#ADD apache-tomcat-8.5.15.tar.gz /usr/local/
+#ADD apache-tomcat-8.5.23.tar.gz /usr/local/
 WORKDIR $CATALINA_HOME
 RUN set -x \
 	\
@@ -18,9 +18,9 @@ RUN set -x \
 		tar \
 		openssl	\
 		wget	\
-	&& wget https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.15/bin/apache-tomcat-8.5.15.tar.gz -O /usr/local/apache-tomcat-8.5.15.tar.gz	\
+	&& wget http://www-eu.apache.org/dist/tomcat/tomcat-8/v8.5.23/bin/apache-tomcat-8.5.23.tar.gz -O /usr/local/apache-tomcat-8.5.23.tar.gz	\
 	&& cd /usr/local	\
-	&& tar -xvf apache-tomcat-8.5.15.tar.gz	\
+	&& tar -xvf apache-tomcat-8.5.23.tar.gz	\
 	&& rm -rf $CATALINA_HOME/webapps/docs $CATALINA_HOME/webapps/examples \
 	&& nativeBuildDir="$(mktemp -d)" \
 	&& tar -xvf $CATALINA_HOME/bin/tomcat-native.tar.gz -C "$nativeBuildDir" --strip-components=1 \
@@ -55,7 +55,7 @@ RUN set -x \
 	&& apk add --virtual .tomcat-native-rundeps $runDeps \
 	&& apk del .fetch-deps .native-build-deps \
 	&& rm -rf "$nativeBuildDir" \
-	&& rm $CATALINA_HOME/bin/tomcat-native.tar.gz /usr/local/apache-tomcat-8.5.15.tar.gz
+	&& rm $CATALINA_HOME/bin/tomcat-native.tar.gz /usr/local/apache-tomcat-8.5.23.tar.gz
 # verify Tomcat Native is working properly
 RUN set -e \
 	&& nativeLines="$(catalina.sh configtest 2>&1)" \
