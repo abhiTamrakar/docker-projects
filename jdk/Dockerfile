@@ -1,4 +1,4 @@
-FROM alpine:3.5
+FROM alpine:latest
 LABEL Maintainer="abhishek.tamrakar08@gmail.com"
 RUN  apk --update add --no-cache ttf-dejavu fontconfig	\
 		openjdk8  \
