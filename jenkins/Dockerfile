@@ -7,6 +7,6 @@ ENV JENKINS_HOME /var/lib/jenkins
 ENV PATH $JENKINS_HOME/bin:$PATH
 WORKDIR $JENKINS_HOME
 RUN apk --update add wget ca-certificates openssl bash bash-completion bash-doc	\
-	&& wget https://updates.jenkins-ci.org/download/war/2.70/jenkins.war -O /tmp/jenkins.war
+	&& wget https://updates.jenkins-ci.org/latest/jenkins.war -O /tmp/jenkins.war
 EXPOSE 8080
 CMD nohup java -jar /tmp/jenkins.war >&2
