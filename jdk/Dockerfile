@@ -1,4 +1,5 @@
 FROM alpine:latest
+LABEL Maintainer="abhishek.tamrakar08@gmail.com"
 ENV JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk
 RUN  apk --update add --no-cache ttf-dejavu fontconfig	\
 		openjdk8  \
