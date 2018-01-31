@@ -1,4 +1,5 @@
 FROM alpine:latest
+LABEL maintainer="Abhishek Tamrakar <abhishek.tamrakar08@gmail.com>"
 ENV VERSION=1.13.8
 
 RUN apk --update add wget ca-certificates openssl bash bash-completion bash-doc alpine-sdk openssl-dev
